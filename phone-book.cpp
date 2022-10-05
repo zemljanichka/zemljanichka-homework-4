@@ -56,9 +56,9 @@ std::vector<user_info_t> phone_book_t::search_users_by_number(const std::string 
       break;
     cnt++;
     user_info_t x;
-    x.user.name = get<1>(user);
-    x.user.number = get<2>(user);
-    x.total_call_duration_s = -get<0>(user);
+    x.user.name = std::get<1>(user);
+    x.user.number = std::get<2>(user);
+    x.total_call_duration_s = -std::get<0>(user);
     result_users.push_back(x);
   }
   return result_users;
@@ -89,9 +89,9 @@ std::vector<user_info_t> phone_book_t::search_users_by_name(const std::string &n
       break;
     cnt++;
     user_info_t x;
-    x.user.name = get<0>(user);
-    x.user.number = get<2>(user);
-    x.total_call_duration_s = -get<1>(user);
+    x.user.name = std::get<0>(user);
+    x.user.number = std::get<2>(user);
+    x.total_call_duration_s = -std::get<1>(user);
     result_users.push_back(x);
   }
   return result_users;
