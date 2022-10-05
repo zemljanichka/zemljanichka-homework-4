@@ -1,0 +1,32 @@
+name: C++ CI
+
+on:
+  pull_request
+
+jobs:
+  test:
+    name: Tests in ${{ matrix.build_type }}
+    runs-on: ubuntu-20.04
+    strategy:
+      matrix:
+        build_type: [Release, Debug, RelWithDebInfo]
+
+    steps:
+      - uses: actions/checkout@v1
+      - name: dependencies
+        run: sudo apt update && sudo apt install binutils gcc cmake valgrind python3 python3-pip && sudo pip install colorama termcolor
+      - name: Create fixes dir
+        run: mkdir .fixes-internal
+      - name: Checkout fixes repository
+        uses: actions/checkout@v2
+        with:
+          repository: 'ITMO-CPP-IB/fixes'
+          path: '.fixes-internal/fixes'
+      - name: Apply fixes
+        run: python3 scripts/apply-fixes.py --on-github --check-only
+
+      - name: Build
+        run: python3 scripts/build.py -c ${{ matrix.build_type }} -d
+
+      - name: Run tests
+        run: python3 scripts/run-tests.py -c ${{ matrix.build_type }} -s 0.75
