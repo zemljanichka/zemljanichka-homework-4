@@ -1,9 +1,4 @@
-#pragma once
-
-#include <iostream>
-#include <string>
-#include <vector>
-
+#include <bits/stdc++.h>
 /**
  * Structure for call-record with defined equality operator and output operator
  */
@@ -48,6 +43,9 @@ struct user_info_t {
     return stream << "user_info_t { user: " << a.user << ";  " << "duration_s: " << a.total_call_duration_s << "; }";
   }
 };
+
+
+
 
 /**
  * Class of phone book you have to implement
@@ -137,4 +135,13 @@ public:
   bool empty() const;
 
 private:
+
+  std::multimap <std::string, std::pair <std::string, double>> users;
+  std::vector <call_t> calls;
+
+  std::multimap <std::string, std::string> users_list;
+  std::map <std::string, std::set <std::string>> prefix_names;
+
+  bool is_prefix(const std::string &prefix, const std::string &name) const;
+  void add_prefixes(const std::string &str);
 };
