@@ -101,6 +101,8 @@ void phone_book_t::clear()
 {
   this->users.clear();
   this->calls.clear();
+  this->users_list.clear();
+  this->prefix_names.clear();
 }
 
 size_t phone_book_t::size() const
@@ -116,11 +118,16 @@ bool phone_book_t::empty() const
 bool phone_book_t::is_prefix(const std::string &prefix, const std::string &name) const {
   if (prefix.size() > name.size())
     return false;
-  auto current_prefix = (*prefix_names.find(name)).second.find(prefix);
-  return current_prefix != (*prefix_names.find(name)).second.end();
+  auto it = prefix_names.find(name);
+  if (it == prefix_names.end())
+    return false;
+  auto current_prefix = it->second.find(prefix);
+  return current_prefix != it->second.end();
 }
+
 void phone_book_t::add_prefixes(const std::string &str) {
   std::string new_prefix;
+  prefix_names[str].insert(new_prefix);
   for (auto chr : str){
     new_prefix += chr;
     prefix_names[str].insert(new_prefix);
