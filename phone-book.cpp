@@ -128,8 +128,6 @@ bool phone_book_t::is_prefix(const std::string &prefix, const std::string &str) 
   for (char chr : prefix){
     hash = (hash + (long long)(chr - 'a' + 1) * mod_greed) % MOD;
     mod_greed = (HASH_MOD * mod_greed) % MOD;
-//    hash += (long long)(chr - 'a' + 1ll) * mod_greed;
-//    mod_greed *= HASH_MOD;
     prefix_hash.push_back(hash);
   }
 
@@ -151,8 +149,6 @@ void phone_book_t::add_prefixes(const std::string &str) {
   for (int i = 0 ; i < str.size(); i++){
     hash_str = (hash_str + (long long)(str[i] - 'a' + 1) * mod_greed) % MOD;
     mod_greed = (HASH_MOD * mod_greed) % MOD;
-    //hash_str += (long long)(str[i] - 'a' + 1ll) * mod_greed;
-    //mod_greed *= HASH_MOD;
     prefix_names[str].push_back(hash_str);
   }
 }
