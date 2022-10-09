@@ -115,21 +115,36 @@ bool phone_book_t::empty() const
   return this->users.empty();
 }
 
-bool phone_book_t::is_prefix(const std::string &prefix, const std::string &name) const {
-  if (prefix.size() > name.size())
+bool phone_book_t::is_prefix(const std::string &prefix, const std::string &str) const {
+  if (prefix.size() > str.size())
     return false;
-  auto it = prefix_names.find(name);
-  if (it == prefix_names.end())
+
+  std::vector <long long> prefix_hash;
+  long long hash = 1;
+  const long long MOD = 31;
+  long long mod_greed = 1;
+  for (char chr : prefix){
+    hash += (long long)(chr - 'a' + 1) * mod_greed;
+    mod_greed *= MOD;
+    prefix_hash.push_back(hash);
+  }
+
+
+  auto it_name = prefix_names.find(str);
+  if (it_name == prefix_names.end())
     return false;
-  auto current_prefix = it->second.find(prefix);
-  return current_prefix != it->second.end();
+  auto current_prefix = it_name->second.at(prefix.size()-1);
+
+  return current_prefix == prefix_hash[prefix.size() - 1];
 }
 
 void phone_book_t::add_prefixes(const std::string &str) {
-  std::string new_prefix;
-  prefix_names[str].insert(new_prefix);
-  for (auto chr : str){
-    new_prefix += chr;
-    prefix_names[str].insert(new_prefix);
+  long long hash_str = 1;
+  const long long MOD = 31;
+  long long mod_greed = 1;
+  for (int i = 0 ; i < str.size(); i++){
+    hash_str += (long long)(str[i] - 'a' + 1) * mod_greed;
+    mod_greed *= MOD;
+    prefix_names[str].push_back(hash_str);
   }
 }

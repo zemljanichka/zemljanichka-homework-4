@@ -140,8 +140,8 @@ private:
   std::vector <call_t> calls;
 
   std::multimap <std::string, std::string> users_list;
-  std::map <std::string, std::set <std::string>> prefix_names;
+  std::map <std::string, std::vector <long long>> prefix_names;
 
-  bool is_prefix(const std::string &prefix, const std::string &name) const;
+  bool is_prefix(const std::string &prefix, const std::string &str) const;
   void add_prefixes(const std::string &str);
 };
